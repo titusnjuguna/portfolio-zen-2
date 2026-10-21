@@ -1,0 +1,10 @@
+{
+  "description": "Streamline banking and lending operations for SACCOs, MFIs, and credit providers in Eastern Africa with intelligent automation and AI-driven insights.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
