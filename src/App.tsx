@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react'
 
-type IconName = 'arrow' | 'bank' | 'check' | 'chevron' | 'cloud' | 'document' | 'fraud' | 'menu' | 'mobile' | 'network' | 'report' | 'shield' | 'spark' | 'users' | 'x'
+type IconName = 'arrow' | 'bank' | 'check' | 'chevron' | 'cloud' | 'document' | 'fraud' | 'menu' | 'mobile' | 'network' | 'report' | 'shield' | 'spark' | 'users' | 'whatsapp' | 'x'
 
 function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
   const paths: Record<IconName, React.ReactNode> = {
@@ -18,6 +18,7 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
     shield: <><path d="M12 3 4 6v6c0 4.7 3.4 7.7 8 9 4.6-1.3 8-4.3 8-9V6Z" /><path d="M9 12h6M12 9v6" /></>,
     spark: <><path d="m12 3 1.2 4.3L17 9l-3.8 1.7L12 15l-1.2-4.3L7 9l3.8-1.7Z" /><path d="m19 15 .6 2.2L22 18l-2.4.8L19 21l-.6-2.2L16 18l2.4-.8Z" /></>,
     users: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.9m-2-11.9a4 4 0 0 1 0 7.7" /></>,
+    whatsapp: <><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z" /><path d="M8.2 7.8c.3 3.7 2.3 5.7 6 6.1m.2 0 1.5-1.5m-7.7-4.6 1.5-1.5" /></>,
     x: <><path d="m6 6 12 12M18 6 6 18" /></>,
   }
   return <svg aria-hidden="true" className="icon" fill="none" height={size} viewBox="0 0 24 24" width={size}><g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">{paths[name]}</g></svg>
@@ -30,9 +31,23 @@ const features = [
   { icon: 'bank' as IconName, title: 'End-to-end loan management', copy: 'Configure products, automate schedules, manage arrears and track every facility from one core.' },
   { icon: 'network' as IconName, title: 'Multi-branch operations', copy: 'Run branches and field teams with central oversight, role controls and real-time portfolio visibility.' },
   { icon: 'users' as IconName, title: 'Member 360° view', copy: 'See savings, loans, guarantors, interactions and risk signals in a single member profile.' },
+  { icon: 'mobile' as IconName, title: 'USSD banking solution', copy: 'Give members secure access to balances, statements, loan requests and payments from any mobile phone.' },
+  { icon: 'spark' as IconName, title: 'Customer mobile app', copy: 'Deliver branded Android and iOS digital banking with self-service, mobile money and real-time notifications.' },
+  { icon: 'network' as IconName, title: 'Agent & field officer app', copy: 'Equip field teams with digital onboarding, collections, KYC capture and offline-ready portfolio tools.' },
 ]
 
-const Logo = ({ inverse = false }: { inverse?: boolean }) => <a aria-label="Zenlow home" className={`logo ${inverse ? 'logo--inverse' : ''}`} href="#top"><span className="logo-mark" aria-hidden="true"><span /><span /><span /></span><span className="logo-type">ZENLOW</span></a>
+const services = [
+  { icon: 'spark' as IconName, title: 'Custom Software Solutions', copy: 'Bespoke business software, workflow automation and systems integration designed around your operations.' },
+  { icon: 'cloud' as IconName, title: 'Website Development', copy: 'Fast, accessible and SEO-ready corporate websites, customer portals and high-converting digital platforms.' },
+  { icon: 'mobile' as IconName, title: 'Mobile App Development', copy: 'Secure native and cross-platform Android and iOS apps for customers, teams and field operations.' },
+  { icon: 'document' as IconName, title: 'Microsoft 365 Development', copy: 'SharePoint, Power Apps, Power Automate and Microsoft 365 customization that connects people and processes.' },
+  { icon: 'report' as IconName, title: 'Odoo ERP Customization', copy: 'Odoo implementation, module development, integrations and workflow customization for growing organizations.' },
+  { icon: 'users' as IconName, title: 'Zoho Customization', copy: 'Zoho CRM setup, custom functions, automation, analytics and integrations for connected customer operations.' },
+  { icon: 'network' as IconName, title: 'Microsoft AI Solutions', copy: 'Responsible Microsoft Copilot and Azure AI deployment, automation and enterprise knowledge solutions.' },
+  { icon: 'bank' as IconName, title: 'Financial Systems Consulting', copy: 'Digital transformation, core banking selection, integration strategy and financial process optimization.' },
+]
+
+const Logo = ({ inverse = false }: { inverse?: boolean }) => <a aria-label="Zenlow home" className={`logo ${inverse ? 'logo--inverse' : ''}`} href="#top"><img alt="Zenlow" src="/zenlow-logo.png" /></a>
 
 function DemoModal({ onClose }: { onClose: () => void }) {
   const [sent, setSent] = useState(false)
@@ -75,8 +90,8 @@ export default function App() {
   return <>
     <header className="site-header" id="top"><div className="header-inner"><Logo />
       <nav aria-label="Primary navigation" className={menuOpen ? 'nav nav--open' : 'nav'}>
-        <a href="#product" onClick={() => setMenuOpen(false)}>SyncLend Suite</a><a href="#solutions" onClick={() => setMenuOpen(false)}>Services</a><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-        <a className="nav-phone" href="tel:+254709353000">+254 709 353 000</a><button className="button button--primary button--small" onClick={requestDemo}>Request Demo</button>
+        <a href="#product" onClick={() => setMenuOpen(false)}>SyncLend Suite</a><a href="#services" onClick={() => setMenuOpen(false)}>Services</a><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
+        <a className="nav-phone" href="tel:+254720610371">+254 720 610 371</a><button className="button button--primary button--small" onClick={requestDemo}>Request Demo</button>
       </nav>
       <button aria-expanded={menuOpen} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} className="icon-button menu-button" onClick={() => setMenuOpen(!menuOpen)}><Icon name={menuOpen ? 'x' : 'menu'} size={24} /></button>
     </div></header>
@@ -89,22 +104,17 @@ export default function App() {
           <div className="hero-actions"><button className="button button--primary button--large" onClick={requestDemo}>Request Live Demo <Icon name="arrow" /></button><a className="button button--outline button--large" href="#how">See How It Works <Icon name="chevron" /></a></div>
           <p className="hero-assurance"><Icon name="shield" size={18} /> Built for regulated, data-sensitive institutions</p>
         </div>
-        <div aria-label="SyncLend live portfolio dashboard preview" className="dashboard-shell">
-          <div className="dash-topbar"><div className="dash-brand"><span className="mini-mark" /> SyncLend</div><div className="dash-period">Portfolio overview <strong>Today</strong></div><div className="avatar">JK</div></div>
-          <div className="dash-body"><aside className="dash-sidebar" aria-hidden="true"><span className="active"><Icon name="report" size={17} /></span><span><Icon name="users" size={17} /></span><span><Icon name="bank" size={17} /></span><span><Icon name="document" size={17} /></span></aside>
-            <div className="dash-content"><div className="dash-greeting"><div><strong>Good morning, Jane</strong><small>Consolidated portfolio · 8 branches</small></div><button aria-label="Export portfolio report"><Icon name="document" size={16} /> Export</button></div>
-              <div className="metric-row"><div className="metric"><span>Gross loan book</span><strong>KES 2.48B</strong><small className="positive">↑ 8.4% this month</small></div><div className="metric"><span>Active loans</span><strong>12,804</strong><small>Across 8 branches</small></div><div className="metric"><span>PAR 30</span><strong>3.2%</strong><small className="positive">↓ 0.8% improvement</small></div></div>
-              <div className="dash-lower"><div className="chart-card"><div className="card-title"><strong>Portfolio performance</strong><span>KES millions</span></div>
-                <svg aria-label="Portfolio growth chart" className="chart" role="img" viewBox="0 0 410 160"><defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#1f67e9" stopOpacity=".26" /><stop offset="1" stopColor="#1f67e9" stopOpacity="0" /></linearGradient></defs><g className="grid-lines"><path d="M15 25h380M15 65h380M15 105h380M15 145h380" /></g><path className="area" d="M15 126C52 121 73 112 102 116S155 95 190 97s48-33 83-27 55-27 82-38 40-7 40-7v120H15Z" /><path className="line" d="M15 126C52 121 73 112 102 116S155 95 190 97s48-33 83-27 55-27 82-38 40-7 40-7" /><circle cx="395" cy="25" r="4" /></svg>
-                <div className="chart-months"><span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span></div></div>
-                <div className="activity-card"><div className="card-title"><strong>Live controls</strong><span>All systems active</span></div>
-                  <div className="activity"><i className="activity-icon blue"><Icon name="mobile" size={15} /></i><div><strong>M-Pesa reconciled</strong><small>248 transactions · now</small></div><b>100%</b></div>
-                  <div className="activity"><i className="activity-icon green"><Icon name="fraud" size={15} /></i><div><strong>Fraud block</strong><small>Duplicate ID prevented</small></div><b className="flagged">Flagged</b></div>
-                  <div className="activity"><i className="activity-icon navy"><Icon name="document" size={15} /></i><div><strong>SASRA return</strong><small>Ready for review</small></div><b className="ready">Ready</b></div>
-                </div></div>
-            </div>
-          </div>
-          <div className="dashboard-tag tag-one"><Icon name="mobile" size={16} /><span>M-Pesa settlement<strong>Balanced to KES 0.00</strong></span></div><div className="dashboard-tag tag-two"><Icon name="fraud" size={16} /><span>Fraud prevention<strong>Risk stopped pre-disbursement</strong></span></div>
+        <div aria-label="Animated Zenlow transaction network" className="hero-motion">
+          <div className="motion-ring motion-ring--one" />
+          <div className="motion-ring motion-ring--two" />
+          <div className="motion-core"><span className="motion-z">Z</span><small>ZENLOW CORE</small><strong>Live & secure</strong><i /></div>
+          <div className="motion-node node-bank"><Icon name="bank" /><span>Core banking</span></div>
+          <div className="motion-node node-mobile"><Icon name="mobile" /><span>Mobile money</span></div>
+          <div className="motion-node node-shield"><Icon name="shield" /><span>AI risk control</span></div>
+          <div className="motion-node node-report"><Icon name="report" /><span>Live reporting</span></div>
+          <span className="data-pulse pulse-one" />
+          <span className="data-pulse pulse-two" />
+          <span className="data-pulse pulse-three" />
         </div>
       </div>
       <div className="trust-strip"><div className="page-shell trust-grid"><div className="country-list"><span>LIVE ACROSS</span><strong>Kenya</strong><i /><strong>Uganda</strong><i /><strong>Tanzania</strong><i /><strong>Rwanda</strong></div><div className="trust-stats"><div><strong>99.9%</strong><span>Platform availability</span></div><div><strong>24/7</strong><span>Regional support</span></div><div><strong>8+</strong><span>Years in fintech</span></div></div></div></div>
@@ -122,8 +132,13 @@ export default function App() {
         </div>
       </div></section>
 
-      <section className="section features-section" id="solutions"><div className="page-shell"><div className="section-heading centered"><p className="eyebrow">Built around how you operate</p><h2>Modern capability. Institutional control.</h2><p>Everything your teams need to lend confidently, serve members better and stay ready for scrutiny.</p></div>
+      <section className="section features-section" id="solutions"><div className="page-shell"><div className="section-heading centered"><p className="eyebrow">SACCO & microfinance software</p><h2>Modern core banking. Every channel connected.</h2><p>Loan management, USSD banking, mobile apps and field officer tools in one secure platform built for African financial institutions.</p></div>
         <div className="feature-grid">{features.map((feature) => <a className="feature-card" href="#contact" key={feature.title}><span className="feature-icon"><Icon name={feature.icon} size={23} /></span><h3>{feature.title}</h3><p>{feature.copy}</p><span className="text-link">Explore capability <Icon name="arrow" size={17} /></span></a>)}</div>
+      </div></section>
+
+      <section className="section services-section" id="services"><div className="page-shell">
+        <div className="section-heading split-heading"><div><p className="eyebrow">Technology services in Kenya</p><h2>Software that moves your business forward.</h2></div><p>From custom software development and mobile apps to Microsoft, Odoo, Zoho and AI deployment, Zenlow delivers practical digital transformation across East Africa.</p></div>
+        <div className="services-grid">{services.map((service, index) => <a className="service-card" href="#contact" key={service.title}><span className="service-number">{String(index + 1).padStart(2,'0')}</span><span className="feature-icon"><Icon name={service.icon} size={22} /></span><h3>{service.title}</h3><p>{service.copy}</p><span className="text-link">Discuss your project <Icon name="arrow" size={17} /></span></a>)}</div>
       </div></section>
 
       <section className="section process-section" id="how"><div className="page-shell"><div className="section-heading split-heading light"><div><p className="eyebrow">A complete digital lending journey</p><h2>From application to reporting—without the gaps.</h2></div><p>Move every application through a controlled workflow while SyncLend automates checks, calculations, posting and compliance records.</p></div>
@@ -142,10 +157,11 @@ export default function App() {
         <div className="faq-list">{[['Which institutions is SyncLend designed for?','SyncLend supports regulated SACCOs, microfinance institutions and credit providers, from growing single-branch lenders to established multi-branch institutions.'],['Can SyncLend integrate with M-Pesa and mobile money?','Yes. SyncLend supports automated transaction matching, settlement tracking and exception handling for M-Pesa and regional mobile money workflows.'],['How long does implementation take?','Timing depends on data migration, integrations and operating complexity. A structured discovery provides a clear implementation plan, ownership model and rollout schedule.'],['Can we host SyncLend on our own infrastructure?','Yes. We support secure cloud, private cloud and on-premise deployment, with data residency options aligned to your institution’s requirements.']].map(([q,a]) => <details key={q}><summary>{q}<span>+</span></summary><p>{a}</p></details>)}</div>
       </div></section>
 
-      <section className="final-cta" id="contact"><div className="page-shell cta-inner"><div><p className="eyebrow">Ready to see SyncLend in action?</p><h2>Schedule your institutional demo.</h2><p>Get a tailored walkthrough for your products, branches and reporting needs.</p></div><div className="cta-actions"><button className="button button--white button--large" onClick={requestDemo}>Schedule Your Demo <Icon name="arrow" /></button><div><a href="tel:+254709353000">+254 709 353 000</a><a href="https://wa.me/254709353000" rel="noreferrer" target="_blank">WhatsApp our team</a></div></div></div></section>
+      <section className="final-cta" id="contact"><div className="page-shell cta-inner"><div><p className="eyebrow">Ready to see SyncLend in action?</p><h2>Schedule your institutional demo.</h2><p>Get a tailored walkthrough for your products, branches and reporting needs.</p></div><div className="cta-actions"><button className="button button--white button--large" onClick={requestDemo}>Schedule Your Demo <Icon name="arrow" /></button><div><a href="tel:+254720610371">+254 720 610 371</a><a href="https://wa.me/254720610371" rel="noreferrer" target="_blank">WhatsApp our team</a></div></div></div></section>
     </main>
 
-    <footer className="footer"><div className="page-shell footer-grid"><div className="footer-brand"><Logo inverse /><p>Intelligent core banking and lending automation for Africa’s financial institutions.</p><a href="https://www.linkedin.com/company/zenlow" rel="noreferrer" target="_blank">LinkedIn <Icon name="arrow" size={16} /></a></div><div><h3>Platform</h3><a href="#product">SyncLend Suite</a><a href="#solutions">Credit Operations</a><a href="#solutions">Core Banking</a><a href="#solutions">Regulatory Reporting</a></div><div><h3>Company</h3><a href="#about">About Zenlow</a><a href="#about">Customer Results</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div><div><h3>Nairobi office</h3><address>Westlands Business District<br />Nairobi, Kenya</address><a href="mailto:info@zenlow.co">info@zenlow.co</a><a href="tel:+254709353000">+254 709 353 000</a></div></div><div className="page-shell footer-bottom"><span>© {new Date().getFullYear()} Zenlow Technologies Ltd. All rights reserved.</span><div><a href="#top">Privacy Policy</a><a href="#top">Terms of Use</a><a href="#top">Security</a></div></div></footer>
+    <footer className="footer"><div className="page-shell footer-grid"><div className="footer-brand"><Logo inverse /><p>Intelligent core banking and lending automation for Africa’s financial institutions.</p><a href="https://www.linkedin.com/company/zenlow" rel="noreferrer" target="_blank">LinkedIn <Icon name="arrow" size={16} /></a></div><div><h3>Platform</h3><a href="#product">SyncLend Suite</a><a href="#solutions">Credit Operations</a><a href="#solutions">Core Banking</a><a href="#solutions">Regulatory Reporting</a></div><div><h3>Company</h3><a href="#about">About Zenlow</a><a href="#about">Customer Results</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></div><div><h3>Get in touch</h3><a href="mailto:info@zenlow.co">info@zenlow.co</a><a href="tel:+254720610371">+254 720 610 371</a><a href="https://wa.me/254720610371" rel="noreferrer" target="_blank">Chat on WhatsApp</a></div></div><div className="page-shell footer-bottom"><span>© {new Date().getFullYear()} Zenlow Technologies Ltd. All rights reserved.</span><div><a href="#top">Privacy Policy</a><a href="#top">Terms of Use</a><a href="#top">Security</a></div></div></footer>
+    <a aria-label="Chat with Zenlow on WhatsApp" className="whatsapp-float" href="https://wa.me/254720610371" rel="noreferrer" target="_blank"><Icon name="whatsapp" size={26} /><span>Chat with us</span></a>
     {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
   </>
 }
