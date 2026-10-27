@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Demo/template pages are kept out of the index with noindex (X-Robots-Tag + meta),
+# NOT Disallow, so crawlers can still see the noindex directive.
+
+Sitemap: https://zenlow.co/sitemap.xml
