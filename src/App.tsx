@@ -23,7 +23,14 @@ function Icon({ name, size = 20 }: { name: IconName; size?: number }) {
     whatsapp: <><path d="M20.5 11.7a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.3-4.7a8.5 8.5 0 1 1 16.2-4.1Z" /><path d="M8.2 7.8c.3 3.7 2.3 5.7 6 6.1m.2 0 1.5-1.5m-7.7-4.6 1.5-1.5" /></>,
     x: <><path d="m6 6 12 12M18 6 6 18" /></>,
   }
-  return <svg aria-hidden="true" className="icon" fill="none" height={size} viewBox="0 0 24 24" width={size}><g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">{paths[name]}</g></svg>
+
+  return (
+    <svg aria-hidden="true" className="icon" fill="none" height={size} viewBox="0 0 24 24" width={size}>
+      <g stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8">
+        {paths[name]}
+      </g>
+    </svg>
+  )
 }
 
 const features = [
@@ -49,7 +56,11 @@ const services = [
   { icon: 'bank' as IconName, title: 'Financial Systems Consulting', copy: 'Digital transformation, core banking selection, integration strategy and financial process optimization.' },
 ]
 
-const Logo = ({ inverse = false }: { inverse?: boolean }) => <a aria-label="Zenlow home" className={`logo ${inverse ? 'logo--inverse' : ''}`} href="#top"><img alt="Zenlow" src="/zenlow-logo.png" /></a>
+const Logo = ({ inverse = false }: { inverse?: boolean }) => (
+  <a aria-label="Zenlow home" className={`logo ${inverse ? 'logo--inverse' : ''}`} href="#top">
+    <img alt="Zenlow" src="/zenlow-logo.png" />
+  </a>
+)
 
 function DemoModal({ onClose }: { onClose: () => void }) {
   const [sent, setSent] = useState(false)
@@ -58,7 +69,10 @@ function DemoModal({ onClose }: { onClose: () => void }) {
     const listener = (event: KeyboardEvent) => event.key === 'Escape' && onClose()
     document.addEventListener('keydown', listener)
     document.body.style.overflow = 'hidden'
-    return () => { document.removeEventListener('keydown', listener); document.body.style.overflow = '' }
+    return () => {
+      document.removeEventListener('keydown', listener)
+      document.body.style.overflow = ''
+    }
   }, [onClose])
 
   function submit(event: FormEvent<HTMLFormElement>) {
@@ -93,7 +107,7 @@ function DemoModal({ onClose }: { onClose: () => void }) {
         'Country: ' + values.country,
         'Phone number: ' + values.phone,
         'Institution type: ' + values.type,
-      ].join('\n')
+      ].join('\n'),
     )
 
     const mailtoUrl = `mailto:${DEMO_EMAIL}?subject=${subject}&body=${body}`
@@ -105,110 +119,473 @@ function DemoModal({ onClose }: { onClose: () => void }) {
     setSent(true)
   }
 
-  return <div aria-labelledby="demo-title" aria-modal="true" className="modal-backdrop" role="dialog" onMouseDown={(e) => e.target === e.currentTarget && onClose()}>
-    <div className="modal">
-      <button aria-label="Close demo request" className="icon-button modal-close" onClick={onClose}><Icon name="x" /></button>
-      {sent ? <div className="success-state" role="status">
-        <span className="success-icon"><Icon name="check" size={28} /></span><p className="eyebrow">Request received</p>
-        <h2 id="demo-title">Thank you. Let’s modernise your lending operations.</h2>
-        <p>Our institutional solutions team will contact you within one business day to arrange your live walkthrough.</p>
-        <button className="button button--primary" onClick={onClose}>Return to Zenlow</button>
-      </div> : <>
-        <p className="eyebrow">Live, tailored product session</p><h2 id="demo-title">See SyncLend with your workflows.</h2>
-        <p className="modal-intro">Tell us about your institution. We’ll tailor the 30-minute session to your market, loan products and reporting needs.</p>
-        <form className="demo-form" onSubmit={submit}>
-          <label>Full name<input autoComplete="name" name="name" required /></label>
-          <label>Work email<input autoComplete="email" name="email" required type="email" /></label>
-          <label>Institution<input autoComplete="organization" name="institution" required /></label>
-          <label>Country<select name="country" required defaultValue=""><option disabled value="">Select country</option><option>Kenya</option><option>Uganda</option><option>Tanzania</option><option>Rwanda</option><option>Other</option></select></label>
-          <label>Phone number<input autoComplete="tel" name="phone" required type="tel" /></label>
-          <label>Institution type<select name="type" required defaultValue=""><option disabled value="">Select institution type</option><option>SACCO</option><option>Microfinance institution</option><option>Bank</option><option>Fintech</option><option>Other</option></select></label>
-          <button className="button button--primary form-submit" type="submit">Request my live demo <Icon name="arrow" /></button>
-        </form><p className="form-note"><Icon name="shield" size={16} /> Your information is handled securely and never shared.</p>
-      </>}
+  return (
+    <div
+      aria-labelledby="demo-title"
+      aria-modal="true"
+      className="modal-backdrop"
+      role="dialog"
+      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+    >
+      <div className="modal">
+        <button aria-label="Close demo request" className="icon-button modal-close" onClick={onClose}>
+          <Icon name="x" />
+        </button>
+
+        {sent ? (
+          <div className="success-state" role="status">
+            <span className="success-icon"><Icon name="check" size={28} /></span>
+            <p className="eyebrow">Request received</p>
+            <h2 id="demo-title">Thank you. Let’s modernise your lending operations.</h2>
+            <p>Our institutional solutions team will contact you within one business day to arrange your live walkthrough.</p>
+            <button className="button button--primary" onClick={onClose}>Return to Zenlow</button>
+          </div>
+        ) : (
+          <>
+            <p className="eyebrow">Live, tailored product session</p>
+            <h2 id="demo-title">See SyncLend with your workflows.</h2>
+            <p className="modal-intro">
+              Tell us about your institution. We’ll tailor the 30-minute session to your market, loan products and reporting needs.
+            </p>
+            <form className="demo-form" onSubmit={submit}>
+              <label>
+                Full name
+                <input autoComplete="name" name="name" required />
+              </label>
+              <label>
+                Work email
+                <input autoComplete="email" name="email" required type="email" />
+              </label>
+              <label>
+                Institution
+                <input autoComplete="organization" name="institution" required />
+              </label>
+              <label>
+                Country
+                <select name="country" required defaultValue="">
+                  <option disabled value="">Select country</option>
+                  <option>Kenya</option>
+                  <option>Uganda</option>
+                  <option>Tanzania</option>
+                  <option>Rwanda</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>
+                Phone number
+                <input autoComplete="tel" name="phone" required type="tel" />
+              </label>
+              <label>
+                Institution type
+                <select name="type" required defaultValue="">
+                  <option disabled value="">Select institution type</option>
+                  <option>SACCO</option>
+                  <option>Microfinance institution</option>
+                  <option>Bank</option>
+                  <option>Fintech</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <button className="button button--primary form-submit" type="submit">
+                Request my live demo <Icon name="arrow" />
+              </button>
+            </form>
+            <p className="form-note">
+              <Icon name="shield" size={16} /> Your information is handled securely and never shared.
+            </p>
+          </>
+        )}
+      </div>
     </div>
-  </div>
+  )
 }
 
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [demoOpen, setDemoOpen] = useState(false)
-  const requestDemo = () => { setMenuOpen(false); setDemoOpen(true) }
 
-  return <>
-    <header className="site-header" id="top"><div className="header-inner"><a aria-label="Zenlow home" className="logo" href="#top"><img alt="Zenlow" src="/zenlow-logo.png" /></a>
-      <nav aria-label="Primary navigation" className={menuOpen ? 'nav nav--open' : 'nav'}>
-        <a href="#product" onClick={() => setMenuOpen(false)}>SyncLend Suite</a><a href="#services" onClick={() => setMenuOpen(false)}>Services</a><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
-        <a className="nav-phone" href="tel:+254720610371">+254 720 610 371</a><button className="button button--primary button--small" onClick={requestDemo}>Request Demo</button>
-      </nav>
-      <button aria-expanded={menuOpen} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} className="icon-button menu-button" onClick={() => setMenuOpen(!menuOpen)}><Icon name={menuOpen ? 'x' : 'menu'} /></button>
-    </div></header>
+  const requestDemo = () => {
+    setMenuOpen(false)
+    setDemoOpen(true)
+  }
 
-    <main>
-      <section className="hero"><div className="hero-grid page-shell">
-        <div className="hero-copy"><div className="eyebrow"><span /> Built for Eastern Africa & Pan-African Lenders</div>
-          <h1>Intelligent core banking & lending automation.</h1>
-          <p className="hero-lead">One secure platform for SACCOs, MFIs and credit providers—combining AI fraud detection, M-Pesa and MoMo reconciliation, and one-click regulatory reporting.</p>
-          <div className="hero-actions"><button className="button button--primary button--large" onClick={requestDemo}>Request Live Demo <Icon name="arrow" /></button><a className="button button--outline button--large" href="#services">Explore services</a></div>
-          <p className="hero-assurance"><Icon name="shield" size={18} /> Built for regulated, data-sensitive institutions</p>
+  return (
+    <>
+      <header className="site-header" id="top">
+        <div className="header-inner">
+          <Logo />
+          <nav aria-label="Primary navigation" className={menuOpen ? 'nav nav--open' : 'nav'}>
+            <a href="#product" onClick={() => setMenuOpen(false)}>SyncLend Suite</a>
+            <a href="#services" onClick={() => setMenuOpen(false)}>Services</a>
+            <a href="#about" onClick={() => setMenuOpen(false)}>About</a>
+            <a href="#faq" onClick={() => setMenuOpen(false)}>FAQ</a>
+            <a className="nav-phone" href="tel:+254720610371">+254 720 610 371</a>
+            <button className="button button--primary button--small" onClick={requestDemo}>Request Demo</button>
+          </nav>
+          <button
+            aria-expanded={menuOpen}
+            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            className="icon-button menu-button"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <Icon name={menuOpen ? 'x' : 'menu'} />
+          </button>
         </div>
-        <div aria-label="Animated Zenlow transaction network" className="hero-motion">
-          <div className="motion-ring motion-ring--one" />
-          <div className="motion-ring motion-ring--two" />
-          <div className="motion-core"><span className="motion-z">Z</span><small>ZENLOW CORE</small><strong>Live & secure</strong><i /></div>
-          <div className="motion-node node-bank"><Icon name="bank" /><span>Core banking</span></div>
-          <div className="motion-node node-mobile"><Icon name="mobile" /><span>Mobile money</span></div>
-          <div className="motion-node node-shield"><Icon name="shield" /><span>AI risk control</span></div>
-          <div className="motion-node node-report"><Icon name="report" /><span>Live reporting</span></div>
-          <span className="data-pulse pulse-one" />
-          <span className="data-pulse pulse-two" />
-          <span className="data-pulse pulse-three" />
-        </div>
-      </div>
-      <div className="trust-strip"><div className="page-shell trust-grid"><div className="country-list"><span>LIVE ACROSS</span><strong>Kenya</strong><i /><strong>Uganda</strong><i /><strong>Tanzania</strong></div></div></div>
-      </section>
+      </header>
 
-      <section aria-label="Customer trust" className="proof-bar"><div className="page-shell proof-inner"><p>Trusted by institutions managing <strong>multi-billion-shilling loan books</strong></p></div></section>
+      <main>
+        <section className="hero">
+          <div className="hero-grid page-shell">
+            <div className="hero-copy">
+              <div className="eyebrow"><span /> Built for Eastern Africa & Pan-African Lenders</div>
+              <h1>Intelligent core banking & lending automation.</h1>
+              <p className="hero-lead">
+                One secure platform for SACCOs, MFIs and credit providers—combining AI fraud detection, M-Pesa and MoMo reconciliation, and one-click regulatory reporting.
+              </p>
+              <div className="hero-actions">
+                <button className="button button--primary button--large" onClick={requestDemo}>
+                  Request Live Demo <Icon name="arrow" />
+                </button>
+                <a className="button button--outline button--large" href="#services">
+                  Explore services
+                </a>
+              </div>
+              <p className="hero-assurance"><Icon name="shield" size={18} /> Built for regulated, data-sensitive institutions</p>
+            </div>
 
-      <section className="section product-section" id="product"><div className="page-shell">
-        <div className="section-heading split-heading"><div><p className="eyebrow">One intelligent lending core</p><h2>Control the full portfolio.<br />From one clear view.</h2></div><p>SyncLend gives lenders a single operating layer for approvals, collections, KYC and live decisioning.</p></div>
-        <div className="product-focus"><div className="focus-nav"><div className="focus-item active"><span>01</span><div><strong>Executive command centre</strong><p>Portfolio, liquidity, risk and branch performance in one view.</p></div></div></div>
-          <div className="portfolio-panel"><div className="portfolio-head"><div><span>PORTFOLIO CONTROL</span><h3>Branch performance</h3></div><div className="status-pill"><i /> Live data</div></div>
-            <div className="branch-grid"><div><span>Total disbursed</span><strong>KES 384.6M</strong><small>Current month</small></div><div><span>Collection rate</span><strong>96.8%</strong><small className="muted">Across 14 branches</small></div><div><span>Active loans</span><strong>2,648</strong><small>Current pipeline</small></div></div>
+            <div aria-label="Animated Zenlow transaction network" className="hero-motion">
+              <div className="motion-ring motion-ring--one" />
+              <div className="motion-ring motion-ring--two" />
+              <div className="motion-core">
+                <span className="motion-z">Z</span>
+                <small>ZENLOW CORE</small>
+                <strong>Live & secure</strong>
+                <i />
+              </div>
+              <div className="motion-node node-bank"><Icon name="bank" /><span>Core banking</span></div>
+              <div className="motion-node node-mobile"><Icon name="mobile" /><span>Mobile money</span></div>
+              <div className="motion-node node-shield"><Icon name="shield" /><span>AI risk control</span></div>
+              <div className="motion-node node-report"><Icon name="report" /><span>Live reporting</span></div>
+              <span className="data-pulse pulse-one" />
+              <span className="data-pulse pulse-two" />
+              <span className="data-pulse pulse-three" />
+            </div>
+          </div>
+
+          <div className="trust-strip">
+            <div className="page-shell trust-grid">
+              <div className="country-list">
+                <span>LIVE ACROSS</span>
+                <strong>Kenya</strong>
+                <i />
+                <strong>Uganda</strong>
+                <i />
+                <strong>Tanzania</strong>
+                <i />
+                <strong>Rwanda</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section aria-label="Customer trust" className="proof-bar">
+          <div className="page-shell proof-inner">
+            <p>
+              Trusted by institutions managing <strong>multi-billion-shilling loan books</strong>
+            </p>
+            <div className="proof-logos">
+              <span>Kenya</span>
+              <span>Uganda</span>
+              <span>Tanzania</span>
+              <span>Rwanda</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="section product-section" id="product">
+          <div className="page-shell">
+            <div className="section-heading split-heading">
+              <div>
+                <p className="eyebrow">One intelligent lending core</p>
+                <h2>
+                  Control the full portfolio.
+                  <br />
+                  From one clear view.
+                </h2>
+              </div>
+              <p>
+                SyncLend gives lenders a single operating layer for approvals, collections, KYC and live decisioning.
+              </p>
+            </div>
+
+            <div className="product-focus">
+              <div className="focus-nav">
+                <div className="focus-item active">
+                  <span>01</span>
+                  <div>
+                    <strong>Executive command centre</strong>
+                    <p>Portfolio, liquidity, risk and branch performance in one view.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="portfolio-panel">
+                <div className="portfolio-head">
+                  <div>
+                    <span>PORTFOLIO CONTROL</span>
+                    <h3>Branch performance</h3>
+                  </div>
+                  <div className="status-pill"><i /> Live data</div>
+                </div>
+
+                <div className="branch-grid">
+                  <div>
+                    <span>Total disbursed</span>
+                    <strong>KES 384.6M</strong>
+                    <small>Current month</small>
+                  </div>
+                  <div>
+                    <span>Collection rate</span>
+                    <strong>96.8%</strong>
+                    <small>Across 14 branches</small>
+                  </div>
+                  <div>
+                    <span>Active loans</span>
+                    <strong>2,648</strong>
+                    <small>Current pipeline</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section features-section" id="solutions">
+          <div className="page-shell">
+            <div className="section-heading centered">
+              <p className="eyebrow">SACCO & microfinance software</p>
+              <h2>Built for the realities of African lending operations.</h2>
+            </div>
+
+            <div className="feature-grid">
+              {features.map((feature) => (
+                <a className="feature-card" href="#contact" key={feature.title}>
+                  <span className="feature-icon"><Icon name={feature.icon} size={23} /></span>
+                  <h3>{feature.title}</h3>
+                  <p>{feature.copy}</p>
+                  <span className="text-link">Learn more <Icon name="arrow" size={16} /></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section services-section" id="services">
+          <div className="page-shell">
+            <div className="section-heading split-heading">
+              <div>
+                <p className="eyebrow">Technology services in Kenya</p>
+                <h2>Software that moves your business forward.</h2>
+              </div>
+              <p>
+                From custom software development to digital strategy, we help institutions launch faster and operate smarter.
+              </p>
+            </div>
+
+            <div className="services-grid">
+              {services.map((service, index) => (
+                <a className="service-card" href="#contact" key={service.title}>
+                  <span className="service-number">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="feature-icon"><Icon name={service.icon} size={22} /></span>
+                  <h3>{service.title}</h3>
+                  <p>{service.copy}</p>
+                  <span className="text-link">Talk to us <Icon name="arrow" size={16} /></span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section process-section" id="how">
+          <div className="page-shell">
+            <div className="section-heading split-heading light">
+              <div>
+                <p className="eyebrow">A complete digital lending journey</p>
+                <h2>From application to recovery.</h2>
+              </div>
+              <p>
+                SyncLend helps teams simplify each step while keeping oversight, policy and compliance aligned.
+              </p>
+            </div>
+
+            <div className="process-grid">
+              {[
+                ['01', 'Origination', 'Capture applications in branch, online or from the field with complete KYC.'],
+                ['02', 'AI verification', 'Apply policy rules, identity checks and risk scoring automatically.'],
+                ['03', 'Disbursement', 'Release funds quickly with mobile money and secure payment workflows.'],
+                ['04', 'Collections', 'Automate follow-ups, reminders and arrears management across teams.'],
+              ].map(([step, title, text]) => (
+                <div className="process-step" key={step}>
+                  <div className="step-top">
+                    <span>{step}</span>
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section results-section" id="about">
+          <div className="page-shell results-grid">
+            <div className="case-copy">
+              <p className="eyebrow">Institution results · Kenya</p>
+              <h2>From manual bottlenecks to a cleaner, faster operating model.</h2>
+              <blockquote>
+                “SyncLend gave us more clarity, faster decisions and a better experience for both our teams and members.”
+              </blockquote>
+              <div className="case-person">
+                <span>AB</span>
+                <div>
+                  <strong>A. Barasa</strong>
+                  <small>Operations Director, MFI</small>
+                </div>
+              </div>
+            </div>
+
+            <div className="result-numbers">
+              <div>
+                <strong>72%</strong>
+                <span>less time spent on daily reconciliation</span>
+              </div>
+              <div>
+                <strong>3×</strong>
+                <span>faster loan processing turnaround</span>
+              </div>
+              <div>
+                <strong>96.8%</strong>
+                <span>average collection rate in live portfolios</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section compliance-section">
+          <div className="page-shell compliance-grid">
+            <div className="compliance-copy">
+              <p className="eyebrow">Deploy with confidence</p>
+              <h2>Built for your regulatory and operational realities.</h2>
+              <ul>
+                <li><Icon name="check" size={16} /> Secure hosting and role-based access</li>
+                <li><Icon name="check" size={16} /> Clear audit trails for every action</li>
+                <li><Icon name="check" size={16} /> Flexible deployment options for cloud or private infrastructure</li>
+              </ul>
+            </div>
+
+            <div className="deployment-card">
+              <div className="deployment-top">
+                <span className="feature-icon"><Icon name="cloud" /></span>
+                <div>
+                  <small>FLEXIBLE INFRASTRUCTURE</small>
+                  <h3>Your environment. Your control.</h3>
+                </div>
+              </div>
+              <p>Run in the cloud, on-premise or through a hybrid model with the same operational experience.</p>
+            </div>
+          </div>
+        </section>
+
+        <section className="section faq-section" id="faq">
+          <div className="page-shell faq-grid">
+            <div className="faq-intro">
+              <p className="eyebrow">Frequently asked questions</p>
+              <h2>Clear answers for your technology decisions.</h2>
+            </div>
+
+            <div className="faq-list">
+              {[
+                ['Which institutions is SyncLend designed for?', 'SyncLend supports regulated SACCOs, microfinance institutions and credit providers, from growing single-branch lenders to multi-location portfolios.'],
+                ['Can it integrate with our existing systems?', 'Yes. The platform is designed to work with core banking, mobile money, accounting and operational tools common in African financial institutions.'],
+                ['How long does deployment take?', 'Implementation timelines vary by complexity, but many institutions begin with a phased rollout to reduce disruption and improve adoption.'],
+              ].map(([question, answer]) => (
+                <div className="faq-item" key={question}>
+                  <h3>{question}</h3>
+                  <p>{answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="final-cta" id="contact">
+          <div className="page-shell cta-inner">
+            <div>
+              <p className="eyebrow">Ready to see SyncLend in action?</p>
+              <h2>Schedule your institutional demo.</h2>
+              <p>Get a tailored walkthrough for your loan lifecycle, risk controls and reporting workflows.</p>
+            </div>
+            <div className="cta-actions">
+              <button className="button button--white button--large" onClick={requestDemo}>
+                Request Live Demo <Icon name="arrow" />
+              </button>
+              <div>
+                <span>Talk to us</span>
+                <a href="tel:+254720610371">+254 720 610 371</a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="page-shell footer-grid">
+          <div className="footer-brand">
+            <Logo inverse />
+            <p>Intelligent core banking and lending automation for Africa’s financial institutions.</p>
+          </div>
+
+          <div>
+            <h3>Company</h3>
+            <a href="#about">About</a>
+            <a href="#product">SyncLend Suite</a>
+            <a href="#faq">FAQ</a>
+          </div>
+
+          <div>
+            <h3>Solutions</h3>
+            <a href="#services">Software Services</a>
+            <a href="#solutions">Lending Automation</a>
+            <a href="#how">Digital Journey</a>
+          </div>
+
+          <div>
+            <h3>Contact</h3>
+            <a href="tel:+254720610371">+254 720 610 371</a>
+            <a href="mailto:sales@zenlow.co">sales@zenlow.co</a>
+            <a href="#contact">Book a demo</a>
           </div>
         </div>
-      </div></section>
 
-      <section className="section features-section" id="solutions"><div className="page-shell"><div className="section-heading centered"><p className="eyebrow">SACCO & microfinance software</p><h2>Built for the realities of African lending operations.</h2></div>
-        <div className="feature-grid">{features.map((feature) => <a className="feature-card" href="#contact" key={feature.title}><span className="feature-icon"><Icon name={feature.icon} size={23} /></span><h3>{feature.title}</h3><p>{feature.copy}</p></a>)}</div>
-      </div></section>
+        <div className="page-shell footer-bottom">
+          <div>
+            <span>© 2025 Zenlow</span>
+            <span>All rights reserved</span>
+          </div>
+          <div>
+            <span>Kenya</span>
+            <span>Uganda</span>
+            <span>Tanzania</span>
+          </div>
+        </div>
+      </footer>
 
-      <section className="section services-section" id="services"><div className="page-shell">
-        <div className="section-heading split-heading"><div><p className="eyebrow">Technology services in Kenya</p><h2>Software that moves your business forward.</h2></div><p>From custom software development to digital strategy, we help institutions launch faster and operate smarter.</p></div>
-        <div className="services-grid">{services.map((service, index) => <a className="service-card" href="#contact" key={service.title}><span className="service-number">{String(index + 1).padStart(2, '0')}</span><span className="feature-icon"><Icon name={service.icon} size={22} /></span><h3>{service.title}</h3><p>{service.copy}</p></a>)}</div>
-      </div></section>
+      <a aria-label="Chat with Zenlow on WhatsApp" className="whatsapp-float" href="https://wa.me/254720610371" rel="noreferrer" target="_blank">
+        <Icon name="whatsapp" size={26} />
+        <span>Chat with us</span>
+      </a>
 
-      <section className="section process-section" id="how"><div className="page-shell"><div className="section-heading split-heading light"><div><p className="eyebrow">A complete digital lending journey</p><h2>From application to recovery.</h2></div><p>SyncLend helps teams simplify each step while keeping oversight, policy and compliance aligned.</p></div>
-        <div className="process-grid">{[['01', 'Origination', 'Capture applications in branch, online or from the field with complete KYC.'], ['02', 'AI verification', 'Apply policy rules, identity checks and risk scoring automatically.'], ['03', 'Disbursement', 'Release funds quickly with mobile money and secure payment workflows.'], ['04', 'Collections', 'Automate follow-ups, reminders and arrears management across teams.']].map(([step, title, text]) => <div className="process-card" key={step}><span>{step}</span><h3>{title}</h3><p>{text}</p></div>)}</div>
-      </div></section>
-
-      <section className="section results-section" id="about"><div className="page-shell results-grid"><div className="case-copy"><p className="eyebrow">Institution results · Kenya</p><h2>From manual bottlenecks to a cleaner, faster operating model.</h2><p>Migration and automation unlock more time for branch teams, sharper compliance and better customer experiences.</p></div>
-        <div className="result-numbers"><div><strong>72%</strong><span>less time spent on daily reconciliation</span></div><div><strong>3×</strong><span>faster loan processing turnaround</span></div><div><strong>96.8%</strong><span>average collection rate in live portfolios</span></div></div>
-      </div></section>
-
-      <section className="section compliance-section"><div className="page-shell compliance-grid"><div className="compliance-copy"><p className="eyebrow">Deploy with confidence</p><h2>Built for your regulatory and operational realities.</h2><p>Secure hosting, role controls, clear audit trails and flexible deployment options support both growth and governance.</p></div>
-        <div className="deployment-card"><div className="deployment-top"><span className="feature-icon"><Icon name="cloud" /></span><div><small>FLEXIBLE INFRASTRUCTURE</small><h3>Your environment. Your controls.</h3></div></div><p>Run in the cloud, on-premise or through a hybrid model with the same operational experience.</p></div>
-      </div></section>
-
-      <section className="section faq-section" id="faq"><div className="page-shell faq-grid"><div className="faq-intro"><p className="eyebrow">Frequently asked questions</p><h2>Clear answers for your technology decisions.</h2></div>
-        <div className="faq-list">{[['Which institutions is SyncLend designed for?', 'SyncLend supports regulated SACCOs, microfinance institutions and credit providers, from growing single-branch lenders to multi-location portfolios.'], ['Can it integrate with our existing systems?', 'Yes. The platform is designed to work with core banking, mobile money, accounting and operational tools common in African financial institutions.'], ['How long does deployment take?', 'Implementation timelines vary by complexity, but many institutions begin with a phased rollout to reduce disruption and improve adoption.']].map(([question, answer]) => <div className="faq-item" key={question}><h3>{question}</h3><p>{answer}</p></div>)}</div>
-      </div></section>
-
-      <section className="final-cta" id="contact"><div className="page-shell cta-inner"><div><p className="eyebrow">Ready to see SyncLend in action?</p><h2>Schedule your institutional demo.</h2><p>Get a tailored walkthrough for your loan lifecycle, risk controls and reporting workflows.</p></div><button className="button button--primary button--large" onClick={requestDemo}>Request Live Demo <Icon name="arrow" /></button></div></section>
-    </main>
-
-    <footer className="footer"><div className="page-shell footer-grid"><div className="footer-brand"><a aria-label="Zenlow home" className="logo logo--inverse" href="#top"><img alt="Zenlow" src="/zenlow-logo.png" /></a><p>Intelligent core banking and lending automation for Africa’s financial institutions.</p></div></div></footer>
-    <a aria-label="Chat with Zenlow on WhatsApp" className="whatsapp-float" href="https://wa.me/254720610371" rel="noreferrer" target="_blank"><Icon name="whatsapp" size={26} /><span>Chat with us</span></a>
-    {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
-  </>
+      {demoOpen && <DemoModal onClose={() => setDemoOpen(false)} />}
+    </>
+  )
 }
